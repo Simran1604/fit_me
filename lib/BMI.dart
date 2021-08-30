@@ -15,6 +15,7 @@ class _BMIState extends State<BMI> {
     return ListView(
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
               child: Padding(
@@ -34,7 +35,7 @@ class _BMIState extends State<BMI> {
                       borderRadius: BorderRadius.circular(10),
                       color: Color(0xFF1D1E33)
                     ),
-                    child: Column(
+                    child: ListView(
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top:30.0),
@@ -82,7 +83,7 @@ class _BMIState extends State<BMI> {
                     borderRadius: BorderRadius.circular(10),
                       color: Color(0xFF1D1E33)
                   ),
-                  child: Column(
+                  child: ListView(
                     children:[
                       Padding(
                         padding: const EdgeInsets.only(top:30.0),

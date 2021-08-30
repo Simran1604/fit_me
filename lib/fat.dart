@@ -34,7 +34,7 @@ class _fatState extends State<fat> {
                     borderRadius: BorderRadius.circular(10),
                     color: Color(0xFF1D1E33)
                   ),
-                  child: Column(
+                  child: ListView(
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top:30.0),
@@ -74,7 +74,7 @@ class _fatState extends State<fat> {
                     borderRadius: BorderRadius.circular(10),
                     color: Color(0xFF1D1E33)
                   ),
-                  child: Column(
+                  child: ListView(
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top:30.0),
@@ -114,7 +114,7 @@ class _fatState extends State<fat> {
                       color: Color(0xFF1D1E33)
                   ),
                   
-                    child: Column(
+                    child: ListView(
                       children:[
                         Padding(
                           padding: const EdgeInsets.only(top:8.0),
@@ -162,7 +162,7 @@ class _fatState extends State<fat> {
                     borderRadius: BorderRadius.circular(10),
                     color: Color(0xFF1D1E33)
                   ),
-                  child: Column(
+                  child: ListView(
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top:30.0),
@@ -204,7 +204,7 @@ class _fatState extends State<fat> {
                     borderRadius: BorderRadius.circular(10),
                     color: Color(0xFF1D1E33)
                   ),
-                  child: Column(
+                  child: ListView(
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top:30.0),

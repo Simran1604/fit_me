@@ -1,15 +1,21 @@
-import 'package:fit_me/fat.dart';
-import 'package:fit_me/water.dart';
+import 'package:fit_me/registration.dart';
 import 'package:flutter/material.dart';
 
-import 'BMI.dart';
+import 'login.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatefulWidget {
+  const MyApp({ Key? key }) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,26 +27,65 @@ class MyApp extends StatelessWidget {
           labelColor: Colors.redAccent
         )
       ),
-      home: DefaultTabController(length: 3, 
-      child:  Scaffold(
-      appBar: AppBar(
-        bottom: TabBar(tabs: 
-        [
-          Text("BMI"),
-          Text("Fat %"),
-          Text("Water Intake")
-        ]),
-        title: Center(child: Text("FitMe",
-        style: TextStyle(color: Colors.redAccent),)),
-      ),
-      body: TabBarView(children: [
-        BMI(),
-        fat(),
-        water(),
-      ],)
-      ),
-      ),
+      home:Scaffold(
+        body: Stack(
+          alignment: AlignmentDirectional.center,
+            children: <Widget>[
+            Image.asset(
+              "assets/images/FitMe.jpg",
+              height:double.infinity,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            )
+        ,Padding(
+          padding: const EdgeInsets.only(top:200.0),
+          child: Container(
+            child: ListView(
+              
+              children: [
+                Center(
+                  child: Container(
+                    height: 50,
+                    width: 300,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: ElevatedButton(onPressed: (){
+                       Navigator.push(
+                         context,
+                         MaterialPageRoute(builder: (context) => register())
+                         );
+                      },
+                       child: Text('Register')
+                       ),
+                    ),
+                  ),
+                ),
+                 Center(
+                   child: Container(
+                     height: 50,
+                     width: 300,
+                     child: Padding(
+                       padding: const EdgeInsets.all(10.0),
+                       child: ElevatedButton(onPressed: (){
+                         Navigator.push(
+                         context,
+                         MaterialPageRoute(builder: (context) => login())
+                         );
+                       },
+                       child: Text('Login')
+                       ),
+                     ),
+                   ),
+                 ),
+              ]),),
+        )
+            ],
+          ),
+        ), 
+     
+        
     );
   }
-}
 
+
+}
