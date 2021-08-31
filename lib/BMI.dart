@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BMI extends StatefulWidget {
   const BMI({ Key? key }) : super(key: key);
@@ -9,7 +10,7 @@ class BMI extends StatefulWidget {
 }
 
 class _BMIState extends State<BMI> {
-  double weight=0;
+  double weight=0,height=0,bmi=0;
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -56,7 +57,9 @@ class _BMIState extends State<BMI> {
                           textAlign: TextAlign.center,
                           showCursor: false,
                           keyboardType: TextInputType.number,
-                          onFieldSubmitted: null,
+                          onFieldSubmitted: (value){
+                            height=;
+                          },
                           ),
                         )
           ],
@@ -125,6 +128,7 @@ class _BMIState extends State<BMI> {
                       child: Icon(Icons.calculate),
                       elevation: 4,
                       highlightElevation: 8,
+                      heroTag: 'BMICALC',
                      )
                  ),
                   Padding(
@@ -135,6 +139,7 @@ class _BMIState extends State<BMI> {
                       child: Icon(Icons.delete_forever),
                       elevation: 4,
                       highlightElevation: 8,
+                      heroTag: 'BMIDEL',
                      )
                  ),
                

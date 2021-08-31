@@ -1,14 +1,20 @@
+// @dart=2.9
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:fit_me/registration.dart';
 import 'package:flutter/material.dart';
-
 import 'login.dart';
 
-void main() {
+
+  void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
+
 class MyApp extends StatefulWidget {
-  const MyApp({ Key? key }) : super(key: key);
+  const MyApp() : super();
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -27,7 +33,8 @@ class _MyAppState extends State<MyApp> {
           labelColor: Colors.redAccent
         )
       ),
-      home:Scaffold(
+      home:Builder(
+        builder: (context) => Scaffold(
         body: Stack(
           alignment: AlignmentDirectional.center,
             children: <Widget>[
@@ -81,7 +88,8 @@ class _MyAppState extends State<MyApp> {
         )
             ],
           ),
-        ), 
+        ),
+    ) 
      
         
     );
@@ -89,3 +97,4 @@ class _MyAppState extends State<MyApp> {
 
 
 }
+

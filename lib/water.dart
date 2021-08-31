@@ -245,6 +245,7 @@ class _waterState extends State<water> {
                       child: Icon(Icons.calculate),
                       elevation: 4,
                       highlightElevation: 8,
+                      heroTag: 'WATERCALC',
                      )
                  ),
                   Padding(
@@ -255,6 +256,7 @@ class _waterState extends State<water> {
                       child: Icon(Icons.delete_forever),
                       elevation: 4,
                       highlightElevation: 8,
+                      heroTag: 'WATERDEL',
                      )
                  ),
                

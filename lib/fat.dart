@@ -245,6 +245,7 @@ class _fatState extends State<fat> {
                       child: Icon(Icons.calculate),
                       elevation: 4,
                       highlightElevation: 8,
+                      heroTag: 'FATCALC',
                      )
                  ),
                   Padding(
@@ -255,6 +256,7 @@ class _fatState extends State<fat> {
                       child: Icon(Icons.delete_forever),
                       elevation: 4,
                       highlightElevation: 8,
+                      heroTag: 'FATDEL',
                      )
                  ),
                
