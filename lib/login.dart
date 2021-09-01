@@ -12,7 +12,7 @@ class login extends StatefulWidget {
 }
 
 class _loginState extends State<login> {
-
+final inputController=TextEditingController();
 String email='',password='';
 bool spinner=false;
   
@@ -20,6 +20,14 @@ bool spinner=false;
   Widget build(BuildContext context) {
     
     return MaterialApp(
+      theme: ThemeData.dark().copyWith(
+        accentColor: Colors.redAccent,
+        primaryColor: Color(0xFF0A0E21),
+        scaffoldBackgroundColor: Color(0xFF0A0E21),
+        tabBarTheme: TabBarTheme(
+          labelColor: Colors.redAccent
+        )
+      ),
       home: Scaffold(
           body:  Stack(
             alignment: AlignmentDirectional.center,
@@ -31,14 +39,15 @@ bool spinner=false;
                 fit: BoxFit.cover,
               ),
              Container(
-               decoration: BoxDecoration(
-                 color: Colors.amberAccent.shade200.withOpacity(0.6),
-                 borderRadius: BorderRadius.circular(10)
-               ),
-               height: MediaQuery.of(context).size.height/2,
-               width: MediaQuery.of(context).size.width/2,
+               height: MediaQuery.of(context).size.height/1.2,
+               width: MediaQuery.of(context).size.width/1.2,
                child: ListView(
                  children: [
+                   Flexible(
+                       child: Hero(
+                         tag:'main',
+                         child: Image(image: AssetImage('assets/images/FitMe_Logo.jpg'))),
+                     ),
                    Padding(
                padding: const EdgeInsets.all(8.0),
                child: Container(
@@ -47,13 +56,14 @@ bool spinner=false;
                  child: ListView(
                    children: [
                      Padding(
-                       padding: const EdgeInsets.all(8.0),
+                       padding: const EdgeInsets.only(top:8.0,left: 8,right: 8),
                        child: Text("Enter email",
                       ),
                      ),
                      Padding(
-                       padding: const EdgeInsets.all(8.0),
+                       padding: const EdgeInsets.only(top:4.0,left: 8,right: 8),
                        child: TextFormField(
+                         controller: inputController,
                          decoration: InputDecoration(
                            hintText: "name@email.com"
                            ,fillColor: Colors.white
@@ -73,21 +83,21 @@ bool spinner=false;
                ),
              ),
              Padding(
-               padding: const EdgeInsets.all(8.0),
+               padding: const EdgeInsets.only(left:8.0,right: 8,top: 4),
                child: Container(
                  height:100,
                  width:110,
                  child: ListView(
                    children: [
                      Padding(
-                       padding: const EdgeInsets.all(8.0),
+                       padding: const EdgeInsets.only(left:8,right:8),
                        child: Text("Enter password",
                        ),
                      ),
                      Padding(
-                       padding: const EdgeInsets.all(8.0),
+                       padding: const EdgeInsets.only(top:4.0,left: 8,right: 8),
                        child: TextFormField(
-                         
+                         controller: inputController,
                          obscureText: true,
                          keyboardType: TextInputType.text,
                          decoration: InputDecoration(
@@ -108,7 +118,7 @@ bool spinner=false;
              )
                  ),
                   Padding(
-                    padding: const EdgeInsets.all(18.0),
+                    padding: const EdgeInsets.all(12.0),
                     child: Center(
                         child: Container(
                           decoration: BoxDecoration(

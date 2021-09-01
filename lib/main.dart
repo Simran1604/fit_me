@@ -44,50 +44,74 @@ class _MyAppState extends State<MyApp> {
               width: double.infinity,
               fit: BoxFit.cover,
             )
-        ,Padding(
-          padding: const EdgeInsets.only(top:200.0),
-          child: Container(
+        , Container(
             child: ListView(
-              
               children: [
+                Flexible(
+                  child: Center(
+                    child: Hero(
+                      tag:'main',
+                      child: Image(
+                            image: AssetImage('assets/images/FitMe_Logo.jpg'),
+                            height: 400,                
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Center(child:
+                  Text("New to FitMe?") 
+                  ,),
+                ),
                 Center(
                   child: Container(
                     height: 50,
-                    width: 300,
+                    width: 200,
                     child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: ElevatedButton(onPressed: (){
-                       Navigator.push(
-                         context,
-                         MaterialPageRoute(builder: (context) => register())
-                         );
-                      },
-                       child: Text('Register')
-                       ),
-                    ),
+                      padding: const EdgeInsets.only(bottom:10.0,left: 10,right: 10),
+                      child:OutlinedButton(onPressed: (){
+                         Navigator.push(
+                           context,
+                           MaterialPageRoute(builder: (context) => register())
+                           );
+                        },
+                         child: Text('Register'),
+                         style: ButtonStyle(elevation: MaterialStateProperty.all(10),
+                         ),
+                                          ),
+                      
                   ),
+                ),),
+                Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Center(child:
+                  Text("Already have an account?") 
+                  ,),
                 ),
                  Center(
                    child: Container(
                      height: 50,
-                     width: 300,
+                     width: 200,
                      child: Padding(
-                       padding: const EdgeInsets.all(10.0),
-                       child: ElevatedButton(onPressed: (){
-                         Navigator.push(
-                         context,
-                         MaterialPageRoute(builder: (context) => login())
-                         );
-                       },
-                       child: Text('Login')
-                       ),
+                       padding: const EdgeInsets.only(left:10.0,right:10,bottom:10),
+                      
+                         child: OutlinedButton(onPressed: (){
+                           Navigator.push(
+                           context,
+                           MaterialPageRoute(builder: (context) => login())
+                           );
+                         },
+                         child: Text('Login')
+                         ),
+                       
                      ),
                    ),
-                 ),
-              ]),),
-        )
-            ],
-          ),
+                 
+              ),
+        ],
+            ),),
+          ])
         ),
     ) 
      

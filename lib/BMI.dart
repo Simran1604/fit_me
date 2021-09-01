@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'bmicalc.dart';
 
 class BMI extends StatefulWidget {
   const BMI({ Key? key }) : super(key: key);
@@ -10,7 +11,9 @@ class BMI extends StatefulWidget {
 }
 
 class _BMIState extends State<BMI> {
-  double weight=0,height=0,bmi=0;
+  int weight=0;
+  double height=0,bmi=0;
+  final firestore=FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -58,7 +61,7 @@ class _BMIState extends State<BMI> {
                           showCursor: false,
                           keyboardType: TextInputType.number,
                           onFieldSubmitted: (value){
-                            height=;
+                            height=double.parse(value);
                           },
                           ),
                         )
@@ -98,13 +101,23 @@ class _BMIState extends State<BMI> {
                         child: Center(child: Text("kg",
                           style: TextStyle(fontSize: 16),)),
                       ),
-                      Slider(value: weight.toDouble(), min: 0,max: 200,
-                  divisions: 200,
+                      Padding(
+                                               padding: const EdgeInsets.all(8.0),
+                                               child: Text("$weight",
+                                               style:
+                                        TextStyle(color: Colors.white,
+                                                fontSize:16,
+                                                fontWeight: FontWeight.bold
+                                                ),
+                                                ),
+                                             ),
+                      Slider(value: weight.toDouble(), min: 0,max: 150,
+                  divisions: 150,
                   inactiveColor: Colors.red.shade100,
                   activeColor: Colors.redAccent,
                   onChanged:(double value){
                     setState(() {
-                      weight=value;
+                      weight=value.round();
                     });
                   }),
                     ]
@@ -123,7 +136,14 @@ class _BMIState extends State<BMI> {
                  Padding(
                    padding: const EdgeInsets.all(12.0),
                    
-                     child: FloatingActionButton(onPressed: null,
+                     child: FloatingActionButton(onPressed: (){
+                       getbmi();
+                       Navigator.push(
+                         context,
+                         MaterialPageRoute(builder: (context) => bmicalc())
+                         );
+                         
+                     },
                       backgroundColor: Colors.redAccent,
                       child: Icon(Icons.calculate),
                       elevation: 4,
@@ -148,5 +168,13 @@ class _BMIState extends State<BMI> {
           )
           ]
           );
+  }
+
+  void getbmi() {
+    double bmi=(weight*10000)/(height*height);
+       firestore.collection('userdata').add({
+            'BMI':bmi,
+          });
+    
   }
 }
