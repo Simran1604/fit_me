@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'bmicalc.dart';
+import 'package:fit_me/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class BMI extends StatefulWidget {
   const BMI({ Key? key }) : super(key: key);
@@ -11,11 +11,58 @@ class BMI extends StatefulWidget {
 }
 
 class _BMIState extends State<BMI> {
+  final heightcontroller=TextEditingController();
+    
   int weight=0;
   double height=0,bmi=0;
-  final firestore=FirebaseFirestore.instance;
+  
   @override
   Widget build(BuildContext context) {
+    
+      void showBMI(){
+      showModalBottomSheet(context: context, builder: (context){  
+             
+        return Container(
+          decoration: BoxDecoration(color: Color((0xFF1D1E33))),
+              
+          child:
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: ListView(
+                children:[Center(
+                  child: Expanded(
+                    child: Text(
+                      "Your Body Mass Index is $bmi."'\n''\n''\n',
+                      style: TextStyle(color: Colors.white,
+                      letterSpacing: 1,
+                      fontSize: 18),
+                    ),
+                  ),
+                ),
+              
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  FloatingActionButton(
+                    child: Icon(Icons.save,color: Colors.redAccent,size: 14,),
+                    onPressed: (){
+                    databasebase(uid: FirebaseAuth.instance.currentUser!.uid).updateBMI(bmi);
+                  },
+                  ),
+                  FloatingActionButton(onPressed:(){
+                    clearAll();
+                    Navigator.pop(context);
+                  },
+                  child: Icon(Icons.clear,color: Colors.redAccent,size: 14,),
+                  )
+                ],
+              )
+                ]
+              ),
+            )
+        );
+      });
+    }
     return ListView(
       children: [
         Row(
@@ -44,7 +91,7 @@ class _BMIState extends State<BMI> {
                         Padding(
                           padding: const EdgeInsets.only(top:30.0),
                           child: Center(child: Text("Height",
-                          style: TextStyle(fontSize: 20,
+                          style: TextStyle(fontSize: 20,letterSpacing: 0.5
                           ),
                           )
                           ),
@@ -52,11 +99,14 @@ class _BMIState extends State<BMI> {
                         Padding(
                           padding: const EdgeInsets.only(top:8.0),
                           child: Center(child: Text("cm",
-                          style: TextStyle(fontSize: 16),)),
+                          style: TextStyle(fontSize: 16,letterSpacing: 0.5),)),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom:12.0,left: 12,right: 12),
                           child: TextFormField(
+                            controller: heightcontroller,
+                            textInputAction: TextInputAction.done,
+                            style: TextStyle(color: Colors.redAccent),
                           textAlign: TextAlign.center,
                           showCursor: false,
                           keyboardType: TextInputType.number,
@@ -94,30 +144,39 @@ class _BMIState extends State<BMI> {
                       Padding(
                         padding: const EdgeInsets.only(top:30.0),
                         child: Center(child: Text("Weight",
-                          style: TextStyle(fontSize: 20),)),
+                          style: TextStyle(fontSize: 20,letterSpacing: 0.5),)),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top:8.0),
-                        child: Center(child: Text("kg",
-                          style: TextStyle(fontSize: 16),)),
+
+                      Row(
+                        
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                                padding: const EdgeInsets.only(top:11,right:4.0),
+                                child: Text("$weight",
+                                style:
+                        TextStyle(color: Colors.redAccent,
+                                fontSize:16,letterSpacing: 0.5,
+                                fontWeight: FontWeight.bold
+                                ),
+                                ),
+                             ),
+
+                          Padding(
+                            padding: const EdgeInsets.only(top:8.0),
+                            child: Center(child: Text("kg",
+                              style: TextStyle(fontSize: 16,letterSpacing: 0.5),)),
+                          ),
+                        ],
                       ),
-                      Padding(
-                                               padding: const EdgeInsets.all(8.0),
-                                               child: Text("$weight",
-                                               style:
-                                        TextStyle(color: Colors.white,
-                                                fontSize:16,
-                                                fontWeight: FontWeight.bold
-                                                ),
-                                                ),
-                                             ),
+                                      
                       Slider(value: weight.toDouble(), min: 0,max: 150,
                   divisions: 150,
                   inactiveColor: Colors.red.shade100,
                   activeColor: Colors.redAccent,
                   onChanged:(double value){
                     setState(() {
-                      weight=value.round();
+                      weight=value.toInt();
                     });
                   }),
                     ]
@@ -138,11 +197,7 @@ class _BMIState extends State<BMI> {
                    
                      child: FloatingActionButton(onPressed: (){
                        getbmi();
-                       Navigator.push(
-                         context,
-                         MaterialPageRoute(builder: (context) => bmicalc())
-                         );
-                         
+                       showBMI();
                      },
                       backgroundColor: Colors.redAccent,
                       child: Icon(Icons.calculate),
@@ -154,7 +209,7 @@ class _BMIState extends State<BMI> {
                   Padding(
                    padding: const EdgeInsets.all(12.0),
                    
-                     child: FloatingActionButton(onPressed: null,
+                     child: FloatingActionButton(onPressed: clearAll(),
                       backgroundColor: Colors.redAccent,
                       child: Icon(Icons.delete_forever),
                       elevation: 4,
@@ -172,9 +227,14 @@ class _BMIState extends State<BMI> {
 
   void getbmi() {
     double bmi=(weight*10000)/(height*height);
-       firestore.collection('userdata').add({
-            'BMI':bmi,
-          });
     
+        databasebase(uid: FirebaseAuth.instance.currentUser!.uid).updateBMI(bmi);
+
+
+  }
+
+    clearAll() {
+                 heightcontroller.clear();
+                 weight=0;
   }
 }

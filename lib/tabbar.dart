@@ -1,5 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:fit_me/water.dart';
+import 'package:fit_me/calorie.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -51,26 +51,51 @@ class _tabbarState extends State<tabbar> {
   home:   DefaultTabController(length: 3, 
          child:  Scaffold(
          appBar: AppBar(
-           actions: [
-             IconButton(onPressed: (){
-               Navigator.pop(context);
-             }, icon: Icon(Icons.logout,
-             color: Colors.redAccent,))
-           ],
+          
            bottom: TabBar(tabs: 
            [
              Text("BMI"),
             Text("Fat %"),
-             Text("Water Intake")
+             Text("Calorie Intake")
            ],
          indicatorColor: Colors.redAccent),
            title: Center(child: Text("FitMe",
            style: TextStyle(color: Colors.redAccent),)),
          ),
+         drawer: Drawer(
+           child: Column(
+             children: [
+               DrawerHeader(child: 
+               Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+                 children: [
+                   Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: Image(image: NetworkImage('${FirebaseAuth.instance.currentUser!.photoURL}'),
+                     height: 100,
+                     width: 100,
+                     ),
+                   ),
+                   Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: Text('Hi ${FirebaseAuth.instance.currentUser!.displayName}'),
+                   )
+                 ],
+               )
+               ),
+               ListView(
+                 children: [
+                   ListTile()
+                 ],
+               )
+             ],
+           ),
+           
+         ),
          body: TabBarView(children: [
            BMI(),
            fat(),
-           water(),
+           calorie(),
          ],)
          ),
          ),

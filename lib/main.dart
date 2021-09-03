@@ -47,8 +47,7 @@ class _MyAppState extends State<MyApp> {
         , Container(
             child: ListView(
               children: [
-                Flexible(
-                  child: Center(
+                Center(
                     child: Hero(
                       tag:'main',
                       child: Image(
@@ -57,7 +56,6 @@ class _MyAppState extends State<MyApp> {
                       ),
                     ),
                   ),
-                ),
                 Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Center(child:

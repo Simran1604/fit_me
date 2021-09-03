@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_me/dashboard.dart';
 import 'package:fit_me/tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_me/authentication.dart';
@@ -12,7 +13,10 @@ class login extends StatefulWidget {
 }
 
 class _loginState extends State<login> {
-final inputController=TextEditingController();
+
+
+final emailController=TextEditingController();
+final passwordcontroller=TextEditingController();
 String email='',password='';
 bool spinner=false;
   
@@ -43,11 +47,9 @@ bool spinner=false;
                width: MediaQuery.of(context).size.width/1.2,
                child: ListView(
                  children: [
-                   Flexible(
-                       child: Hero(
+                  Hero(
                          tag:'main',
                          child: Image(image: AssetImage('assets/images/FitMe_Logo.jpg'))),
-                     ),
                    Padding(
                padding: const EdgeInsets.all(8.0),
                child: Container(
@@ -63,7 +65,8 @@ bool spinner=false;
                      Padding(
                        padding: const EdgeInsets.only(top:4.0,left: 8,right: 8),
                        child: TextFormField(
-                         controller: inputController,
+                         controller: emailController,
+                        autofocus: true, 
                          decoration: InputDecoration(
                            hintText: "name@email.com"
                            ,fillColor: Colors.white
@@ -97,7 +100,8 @@ bool spinner=false;
                      Padding(
                        padding: const EdgeInsets.only(top:4.0,left: 8,right: 8),
                        child: TextFormField(
-                         controller: inputController,
+                         controller: passwordcontroller,
+                         
                          obscureText: true,
                          keyboardType: TextInputType.text,
                          decoration: InputDecoration(
@@ -138,22 +142,14 @@ bool spinner=false;
                                             email: email,
                                             password: password
                                           );
-                                          if(userCredential!=null)
-                                          {
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(
-                                            backgroundColor: Colors.redAccent,
-                                            content: Text("Login Successful"))
-                                          ) ;
+                                          emailController.clear();
+                                          passwordcontroller.clear();
                                            Navigator.push(
                                             context,
-                                            MaterialPageRoute(builder: (context) =>tabbar()));
-                                                }
+                                            MaterialPageRoute(builder: (context) =>dashboard()));
                                         } on FirebaseAuthException catch (e) {
                                           if (e.code == 'user-not-found') {
-                                            setState(() {
-                                            spinner=false;
-                                          });
+                                            
                                             ScaffoldMessenger.of(context).showSnackBar(
                                                   authentication.customSnackBar(
                                                     content:

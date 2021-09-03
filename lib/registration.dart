@@ -1,9 +1,10 @@
 
-import 'package:fit_me/tabbar.dart';
-import 'package:fit_me/widgets/googleSignInButton.dart';
+import 'package:fit_me/login.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_me/authentication.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fit_me/database.dart';
 
 class register extends StatefulWidget {
   const register({ Key? key }) : super(key: key);
@@ -13,8 +14,11 @@ class register extends StatefulWidget {
 }
 
 class _registerState extends State<register> {
-  final inputController=TextEditingController();
+  final nameController=TextEditingController();
+  final emailController=TextEditingController();
+  final passwordController=TextEditingController();
   final auth=FirebaseAuth.instance;
+  final firestore=FirebaseFirestore.instance;
   String name='',password='',email='';
   @override
   Widget build(BuildContext context) {
@@ -43,11 +47,9 @@ class _registerState extends State<register> {
                     child: ListView(
                       scrollDirection: Axis.vertical,
                      children: [
-                       Flexible(
-                         child: Hero(
+                       Hero(
                            tag:'main',
                            child: Image(image: AssetImage('assets/images/FitMe_Logo.jpg'))),
-                       ),
                     Container(
                      height:100,
                      width:110,
@@ -61,15 +63,18 @@ class _registerState extends State<register> {
                          Padding(
                            padding: const EdgeInsets.only(left:8.0,right: 8,top: 4),
                            child: TextFormField(
-                             controller: inputController,
-                             obscureText: true,
+                            controller: nameController,
+                             autofocus:true,
+                             textCapitalization: TextCapitalization.words,
+                             
                              keyboardType: TextInputType.text,
                              decoration: InputDecoration(
+                               
                                hintText: 'name',
                                fillColor: Colors.white
                              ),
                              onChanged: (String value){
-                               inputController.clear();
+                               
                                try{
                                  name=value;
                                }catch(exception){
@@ -94,14 +99,14 @@ class _registerState extends State<register> {
                            Padding(
                              padding: const EdgeInsets.only(left:8.0,right: 8,top: 4),
                              child: TextFormField(
-                               controller: inputController,
+                               controller: emailController,
                                decoration: InputDecoration(
                                  hintText: "name@email.com"
                                  ,
                                ),
                                keyboardType: TextInputType.emailAddress,
                                onChanged: (String value){
-                                 inputController.clear();
+                                 
                                  try{
                                    email=value;
                                  }catch(exception){
@@ -113,38 +118,6 @@ class _registerState extends State<register> {
                          ],
                        ),
                ),
-              //          Padding(padding: const EdgeInsets.all(8),
-              //          child: Container(
-              //             height:100,
-              //             width:110,
-              //             child: ListView(
-              //        children: [
-              //          Padding(
-              //            padding: const EdgeInsets.all(8.0),
-              //            child: Text("Enter username",
-              //            ),
-              //          ),
-              //          Padding(
-              //            padding: const EdgeInsets.all(8.0),
-              //            child: TextFormField(
-              //              keyboardType: TextInputType.text,
-              //              decoration: InputDecoration(
-              //                hintText: 'username',
-              //                fillColor: Colors.white
-              //              ),
-              //              onChanged: (String value){
-              //                try{
-              //                  username=value;
-              //                }catch(exception){
-              //                  username.contains(' ');
-              //                }
-              //              },
-              //            ),
-              //          ),             
-              //      ],
-              //    ),
-                        //  ),
-                        //  ),
                          Container(
                      height:100,
                      width:110,
@@ -158,7 +131,7 @@ class _registerState extends State<register> {
                          Padding(
                            padding: const EdgeInsets.only(left:8.0,right: 8,top: 4),
                            child: TextFormField(
-                             controller: inputController,
+                             controller: passwordController,
                              obscureText: true,
                              keyboardType: TextInputType.text,
                              decoration: InputDecoration(
@@ -166,7 +139,7 @@ class _registerState extends State<register> {
                                fillColor: Colors.white
                              ),
                              onChanged: (String value){
-                               inputController.clear();
+                               
                                try{
                                  password=value;
                                }catch(exception){
@@ -195,11 +168,14 @@ class _registerState extends State<register> {
                                     child: ElevatedButton(
                                       onPressed:() async {
                                         try {                                        
-                                              UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                              final result =await FirebaseAuth.instance.createUserWithEmailAndPassword(
                                               email: email,
                                               password: password);
-                                              if(userCredential!=null)
-                                              {
+                                              databasebase(uid: result.user!.uid);
+                                              nameController.clear();
+                                              emailController.clear();
+                                              passwordController.clear();
+                                                                                            
                                                 ScaffoldMessenger.of(context).showSnackBar(
                                                 SnackBar(
                                                 backgroundColor: Colors.redAccent,
@@ -207,9 +183,7 @@ class _registerState extends State<register> {
                                               ) ;
                                               Navigator.push(
                                                 context,
-                                                MaterialPageRoute(builder: (context) => tabbar()));
-                                              }
-                                              
+                                                MaterialPageRoute(builder: (context) => login()));
                                             }
                                         
                                              on FirebaseAuthException catch (e) {
@@ -242,9 +216,7 @@ class _registerState extends State<register> {
                       ),
                        ],
                      ),
-                  ),
-                 
-               
+                  ),              
                     ]
                  ),
           ),
