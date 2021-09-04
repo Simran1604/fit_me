@@ -170,7 +170,8 @@ class _registerState extends State<register> {
                                         try {                                        
                                               final result =await FirebaseAuth.instance.createUserWithEmailAndPassword(
                                               email: email,
-                                              password: password);
+                                              password: password
+                                              );
                                               databasebase(uid: result.user!.uid);
                                               nameController.clear();
                                               emailController.clear();

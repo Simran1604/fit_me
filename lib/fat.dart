@@ -254,14 +254,14 @@ class _fatState extends State<fat> {
                         Padding(
                           padding: const EdgeInsets.only(top:8.0),
                           child: Center(child: Text("Weight",
-                            style: TextStyle(fontSize: 20,letterSpacing: 0.5,color: Colors.redAccent),)),
+                            style: TextStyle(fontSize: 20,letterSpacing: 0.5,color: Colors.white),)),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                                    padding: const EdgeInsets.only(top:11.0,right: 4),
+                                    padding: const EdgeInsets.only(top:10.0,right: 4),
                                     child: Text("$weight",
                                     style:
                             TextStyle(color: Colors.redAccent,

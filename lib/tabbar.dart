@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fit_me/calorie.dart';
+import 'package:fit_me/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_me/authentication.dart';
 
 import 'BMI.dart';
 import 'fat.dart';
@@ -40,58 +42,155 @@ class _tabbarState extends State<tabbar> {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      theme: ThemeData.dark().copyWith(
+         theme: ThemeData.dark().copyWith(
         accentColor: Colors.redAccent,
         primaryColor: Color(0xFF0A0E21),
         scaffoldBackgroundColor: Color(0xFF0A0E21),
         tabBarTheme: TabBarTheme(
-          labelColor: Colors.redAccent
-        )
+          labelColor: Colors.redAccent,
+        ),
+        canvasColor: Color(0xFF0A0E21),
       ),
-  home:   DefaultTabController(length: 3, 
+         home:DefaultTabController(length: 3, 
          child:  Scaffold(
          appBar: AppBar(
           
            bottom: TabBar(tabs: 
            [
-             Text("BMI"),
-            Text("Fat %"),
-             Text("Calorie Intake")
+             Text("BMI",style: TextStyle(letterSpacing: 1,fontSize:14 ),),
+            Text("Fat %",style: TextStyle(letterSpacing: 1,fontSize:14 ),),
+             Text("Calorie Intake",style: TextStyle(letterSpacing: 1,fontSize:14 ),)
            ],
          indicatorColor: Colors.redAccent),
-           title: Center(child: Text("FitMe",
-           style: TextStyle(color: Colors.redAccent),)),
+           title:Text("FitMe",textAlign: TextAlign.center,
+           style: TextStyle(color: Colors.redAccent,fontSize: 18,letterSpacing: 1),),
          ),
-         drawer: Drawer(
-           child: Column(
-             children: [
-               DrawerHeader(child: 
-               Row(
-                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                 children: [
-                   Padding(
-                     padding: const EdgeInsets.all(8.0),
-                     child: Image(image: NetworkImage('${FirebaseAuth.instance.currentUser!.photoURL}'),
-                     height: 100,
-                     width: 100,
-                     ),
-                   ),
-                   Padding(
-                     padding: const EdgeInsets.all(8.0),
-                     child: Text('Hi ${FirebaseAuth.instance.currentUser!.displayName}'),
-                   )
-                 ],
-               )
-               ),
-               ListView(
-                 children: [
-                   ListTile()
-                 ],
-               )
-             ],
-           ),
-           
-         ),
+         drawer:Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Color(0xFF0A0E21),
+                ),
+                child: DrawerHeader(
+                  child:
+                      Row(
+                        
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: CircleAvatar(
+                              radius: 50,
+                              foregroundImage: AssetImage('assets/images/dp.jpg'),
+                              
+                            ),
+                          ),
+
+                          Expanded(child: Text('Hi ',style:TextStyle(color: Colors.white,fontSize: 18,letterSpacing: 0.5))),
+                          Expanded(
+                              child: Text('Simran',
+                              style: TextStyle(color: Colors.redAccent,fontSize: 18,letterSpacing: 0.5),),
+                            ),
+                          
+                        ],
+                      
+                  ),
+                ),
+              ),
+              Container(
+                child: Column(
+                  
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        focusColor: Colors.brown.shade800,
+                        child: ListTile(
+                          tileColor: Color(0xFF1D1E33),
+                          trailing: Icon(Icons.dashboard,color: Colors.redAccent,size: 20,),
+                          title:Text('DASHBOARD',style: TextStyle(
+                            fontSize: 16,
+                            letterSpacing: 1
+                          ),)
+                        ),
+                        onTap: (){
+                          Navigator.push(
+                                   context,
+                                   MaterialPageRoute(builder: (context) => dashboard())
+                                   );
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        focusColor: Colors.brown.shade800,
+                        child: ListTile(
+                          trailing: Icon(Icons.settings,color: Colors.redAccent,size: 20,),
+                          tileColor: Color(0xFF1D1E33),
+                          selectedTileColor: Colors.redAccent.withOpacity(0.5),
+                          title:Text('SETTINGS',
+                          style: TextStyle(
+                            fontSize: 16,
+                            letterSpacing: 1
+                          ),
+                          )
+                        ),
+                        onTap: (){
+                          Navigator.push(
+                                   context,
+                                   MaterialPageRoute(builder: (context) => tabbar())
+                                   );
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        focusColor: Colors.brown.shade800,
+                        child: ListTile(
+                          trailing: Icon(Icons.logout,color: Colors.redAccent,size: 20,),
+                          tileColor: Color(0xFF1D1E33),
+                          selectedTileColor: Colors.redAccent.withOpacity(0.5),
+                          title:Text('SIGNOUT',
+                          style: TextStyle(
+                            fontSize: 16,
+                            letterSpacing: 1,
+                            color: Colors.redAccent,
+                            fontWeight: FontWeight.bold
+                          ),
+                          )
+                          
+                        ),
+                        onTap: (){
+                          try{auth.signOut();
+                               ScaffoldMessenger.of(context).showSnackBar(
+                               authentication.customSnackBar(
+                               content:
+                               'Signing out',
+                               ),
+                             );
+                               Navigator.pop(context);
+                             }
+                             catch(e)
+                             {
+                               ScaffoldMessenger.of(context).showSnackBar(
+                               authentication.customSnackBar(
+                               content:
+                               e.toString(),
+                               ),
+                             );
+                             }
+                                  },
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
          body: TabBarView(children: [
            BMI(),
            fat(),

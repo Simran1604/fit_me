@@ -152,7 +152,7 @@ class _BMIState extends State<BMI> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                                padding: const EdgeInsets.only(top:11,right:4.0),
+                                padding: const EdgeInsets.only(top:10,right:4.0),
                                 child: Text("$weight",
                                 style:
                         TextStyle(color: Colors.redAccent,
