@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fit_me/database.dart';
@@ -20,6 +21,7 @@ class _BMIState extends State<BMI> {
   Widget build(BuildContext context) {
     
       void showBMI(){
+        var result=FirebaseFirestore.instance.collection('BMI').get();
       showModalBottomSheet(context: context, builder: (context){  
              
         return Container(
@@ -46,7 +48,7 @@ class _BMIState extends State<BMI> {
                   FloatingActionButton(
                     child: Icon(Icons.save,color: Colors.redAccent,size: 14,),
                     onPressed: (){
-                    databasebase(uid: FirebaseAuth.instance.currentUser!.uid).updateBMI(bmi);
+                    databasebase(uid: FirebaseAuth.instance.currentUser!.uid).updateBMI(bmi.toString());
                   },
                   ),
                   FloatingActionButton(onPressed:(){
@@ -226,11 +228,11 @@ class _BMIState extends State<BMI> {
   }
 
   void getbmi() {
-    double bmi=(weight*10000)/(height*height);
+    weight*=10000;
+    height*=height;
+    bmi=(weight)/(height);
     
-        databasebase(uid: FirebaseAuth.instance.currentUser!.uid).updateBMI(bmi);
-
-
+        databasebase(uid: FirebaseAuth.instance.currentUser!.uid).updateBMI(bmi.toString());
   }
 
     clearAll() {

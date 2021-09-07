@@ -19,7 +19,7 @@ class databasebase{
   }
 
 
-   updateBMI(double bmi)
+   updateBMI(String bmi)
   {
     final CollectionReference db=FirebaseFirestore.instance.collection('BMI');
      db.doc(uid).set({'BMI':bmi});
