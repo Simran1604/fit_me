@@ -5,24 +5,27 @@ import 'package:fit_me/tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'dashboard.dart';
+
 class authentication {
+
   final firestore= FirebaseFirestore.instance;
-//   static Future<FirebaseApp> initializeFirebase({
-//   required BuildContext context,
-// }) async {
-//   FirebaseApp firebaseApp = await Firebase.initializeApp();
 
-//   User? user = FirebaseAuth.instance.currentUser;
+  static Future<FirebaseApp> initializeFirebase({
+  required BuildContext context,}) async {
+  FirebaseApp firebaseApp = await Firebase.initializeApp();
 
-//   if (user != null) {
-//     Navigator.of(context).pushReplacement(
-//       MaterialPageRoute(
-//         builder: (context) => tabbar(),)
-//     );
-//   }
+  User? user = FirebaseAuth.instance.currentUser;
 
-//   return firebaseApp;
-// }
+  if (user != null) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => dashboard(),)
+    );
+  }
+
+  return firebaseApp;
+}
 
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;

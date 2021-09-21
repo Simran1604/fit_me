@@ -13,15 +13,16 @@ class BMI extends StatefulWidget {
 
 class _BMIState extends State<BMI> {
   final heightcontroller=TextEditingController();
-    
+  final weightcontroller=TextEditingController();
   int weight=0;
-  double height=0,bmi=0;
   
   @override
   Widget build(BuildContext context) {
     
-      void showBMI(){
-        var result=FirebaseFirestore.instance.collection('BMI').get();
+       void showBMI(){
+      //   if(FirebaseAuth.instance.currentUser!=null)
+      //   var id=FirebaseAuth.instance.currentUser!.uid;
+        var result=FirebaseFirestore.instance.collection('BMI').snapshots();
       showModalBottomSheet(context: context, builder: (context){  
              
         return Container(
@@ -34,7 +35,7 @@ class _BMIState extends State<BMI> {
                 children:[Center(
                   child: Expanded(
                     child: Text(
-                      "Your Body Mass Index is $bmi."'\n''\n''\n',
+                      "Your Body Mass Index is $result."'\n''\n''\n',
                       style: TextStyle(color: Colors.white,
                       letterSpacing: 1,
                       fontSize: 18),
@@ -48,7 +49,7 @@ class _BMIState extends State<BMI> {
                   FloatingActionButton(
                     child: Icon(Icons.save,color: Colors.redAccent,size: 14,),
                     onPressed: (){
-                    databasebase(uid: FirebaseAuth.instance.currentUser!.uid).updateBMI(bmi.toString());
+                      Navigator.pop(context);
                   },
                   ),
                   FloatingActionButton(onPressed:(){
@@ -113,7 +114,7 @@ class _BMIState extends State<BMI> {
                           showCursor: false,
                           keyboardType: TextInputType.number,
                           onFieldSubmitted: (value){
-                            height=double.parse(value);
+
                           },
                           ),
                         )
@@ -155,7 +156,7 @@ class _BMIState extends State<BMI> {
                         children: [
                           Padding(
                                 padding: const EdgeInsets.only(top:10,right:4.0),
-                                child: Text("$weight",
+                                child: Text("${weightcontroller.text}",
                                 style:
                         TextStyle(color: Colors.redAccent,
                                 fontSize:16,letterSpacing: 0.5,
@@ -227,12 +228,16 @@ class _BMIState extends State<BMI> {
           );
   }
 
-  void getbmi() {
+  void  getbmi() {
+    double height=heightcontroller.text as double;
+    double weight=weightcontroller.text as double;
+    double bmi=0;
+
     weight*=10000;
     height*=height;
     bmi=(weight)/(height);
     
-        databasebase(uid: FirebaseAuth.instance.currentUser!.uid).updateBMI(bmi.toString());
+        databasebase(uid: FirebaseAuth.instance.currentUser!.uid).updateBMI(bmi);
   }
 
     clearAll() {

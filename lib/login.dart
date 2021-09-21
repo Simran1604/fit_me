@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_me/dashboard.dart';
+import 'package:fit_me/resetpassword.dart';
 import 'package:fit_me/tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_me/authentication.dart';
@@ -19,6 +20,7 @@ final emailController=TextEditingController();
 final passwordcontroller=TextEditingController();
 String email='',password='';
 bool spinner=false;
+final auth =FirebaseAuth.instance;
   
   @override
   Widget build(BuildContext context) {
@@ -174,7 +176,19 @@ bool spinner=false;
                           
                         ),
                       ),
-                  )]
+                  ),TextButton(onPressed: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => resetPassword(),));
+                  },
+                      style: ButtonStyle(
+                        elevation: MaterialStateProperty.all(10)
+                      ),
+                         child: Text('Forgot password?',
+                         style: TextStyle(
+                           color: Colors.blue,
+                           decoration: TextDecoration.underline,
+                           fontWeight: FontWeight.w500
+                         ),) ),
+                   ]
                ),
              )
               ]

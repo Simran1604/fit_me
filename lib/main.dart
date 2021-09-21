@@ -1,6 +1,8 @@
 // @dart=2.9
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fit_me/dashboard.dart';
 import 'package:fit_me/registration.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
@@ -21,7 +23,25 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  
+
+  @override
+  void initState() {
+    getCurrentUser();
+    super.initState();
+  }
+
+  void getCurrentUser() async{
+    FirebaseAuth.instance
+  .authStateChanges()
+  .listen((User user) {
+    if (user == null) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>login()));
+    } else {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>dashboard()));
+    }
+  });
+  }
+ 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

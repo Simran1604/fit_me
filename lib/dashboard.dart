@@ -62,14 +62,14 @@ class _dashboardState extends State<dashboard> {
                     width: MediaQuery.of(context).size.width/3,
                     decoration: BoxDecoration(
                       boxShadow: [
-                        // BoxShadow(
-                        //   color: Colors.brown.shade800,
-                        //   blurRadius: 10,
-                        //   spreadRadius: 5
-                        // )
+                        BoxShadow(
+                          color: Colors.brown.shade800,
+                          blurRadius: 10,
+                          spreadRadius: 5
+                        )
                       ],
                       borderRadius: BorderRadius.circular(10),
-                      //color: Color(0xFF1D1E33).withOpacity(0.5)
+                      color: Color(0xFF1D1E33)
                     ),
                     child: ListView(
                       children: [

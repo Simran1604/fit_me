@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fit_me/database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,7 +28,7 @@ class _fatState extends State<fat> {
   Widget build(BuildContext context) {
     void showFat(){
       showModalBottomSheet(context: context, builder: (context){  
-             
+          String result=FirebaseFirestore.instance.collection('FAT%').get().toString();  
         return Container(
           decoration: BoxDecoration(color: Color((0xFF1D1E33))),
               
@@ -38,7 +39,7 @@ class _fatState extends State<fat> {
                 children:[Center(
                   child: Expanded(
                     child: Text(
-                      "Your Body fat Percentage is $fat."'\n''\n''\n'
+                      "Your Body fat Percentage is $result."'\n''\n''\n'
                       "The ideal body fat percentage chart is as follows:"'\n''\n'
                       "Women:"'\n''\n'
 
@@ -485,6 +486,7 @@ class _fatState extends State<fat> {
     if(gender=='female')
     {
       fat=(1.20 * bmi) + (0.23 * age) - 5.4;
+       databasebase(uid: FirebaseAuth.instance.currentUser!.uid).updatefat(fat);
     }
   }
   clearAll() {
